@@ -201,7 +201,10 @@ body{
 #captionBox span{
 	float: right;
 }
-
+a{
+	color: #ff0;
+	text-decoration: none;
+}
 .gps_ring {
 	border: 3px solid #999;
 	-webkit-border-radius: 30px;

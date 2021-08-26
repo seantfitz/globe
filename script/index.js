@@ -238,7 +238,14 @@ const flyToCountry = ()=>{
 	viewer.camera.flyTo({
 		destination: Cesium.Cartesian3.fromDegrees(lon,lat,hgt),
 		easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT,
-		duration: 5,
+		// duration: 5,
+		// duration: 3,
+		duration: 2,
+		orientation: {
+			heading: Cesium.Math.toRadians(0.0),
+			pitch: Cesium.Math.toRadians(-90.0),
+			roll: 0.0,
+		},
 		complete: flyToLoc,
 	})
 };
@@ -253,7 +260,13 @@ const flyToLoc = ()=>{
 
 	viewer.camera.flyTo({
 		destination: Cesium.Cartesian3.fromDegrees(lon,lat,hgt),
-		duration: 10,
+		// easingFunction: Cesium.EasingFunction.QUADRATIC_OUT_IN,
+		// easingFunction: Cesium.EasingFunction.QUADRATIC_OUT,
+		easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT,
+		// easingFunction: Cesium.EasingFunction.QUADRATIC_IN,
+		// duration: 10,
+		// duration: 7,
+		duration: 5,
 		complete:pitchShift,
 	})
 
@@ -261,30 +274,61 @@ const flyToLoc = ()=>{
 	captionBox.innerHTML = `${arr[keys[current]]['locality']['caption']}&#32<span><a target="_blank" href="${arr[keys[current]]['locality']['hyperlink']}">...read more</a></span>`;
 };
 
+// const pitchShift = ()=>{
+// 	let lat = arr[keys[current]]['locality']['newLat']
+// 	let lon = arr[keys[current]]['locality']['lon']
+// 	let hgt = 30000;
+
+// 	viewer.entities.getById(arr[keys[current]]['country']['guid']).show = false;
+// 	viewer.entities.getById(arr[keys[current]]['locality']['guid']).show = false;
+
+// 	viewer.camera.flyTo({
+// 		destination: Cesium.Cartesian3.fromDegrees(lon,lat,hgt),
+// 		// easingFunction: Cesium.EasingFunction.QUADRATIC_OUT,
+// 		easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT,
+// 		// duration: 3,
+// 		duration: 2,
+// 		orientation: {
+// 			heading: Cesium.Math.toRadians(0.0),
+// 			pitch: Cesium.Math.toRadians(-45.0),
+// 			roll: 0.0,
+// 		},
+// 		complete:showPic,
+// 	})
+// };
 const pitchShift = ()=>{
 	let lat = arr[keys[current]]['locality']['newLat']
 	let lon = arr[keys[current]]['locality']['lon']
-	let hgt = 30000;
+	let hgt = 15000;
 
 	viewer.entities.getById(arr[keys[current]]['country']['guid']).show = false;
 	viewer.entities.getById(arr[keys[current]]['locality']['guid']).show = false;
 
 	viewer.camera.flyTo({
 		destination: Cesium.Cartesian3.fromDegrees(lon,lat,hgt),
-		easingFunction: Cesium.EasingFunction.QUADRATIC_OUT,
+		// easingFunction: Cesium.EasingFunction.QUADRATIC_OUT,
+		easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT,
 		duration: 3,
+		// duration: 5,
 		orientation: {
 			heading: Cesium.Math.toRadians(0.0),
-			pitch: Cesium.Math.toRadians(-45.0),
+			pitch: Cesium.Math.toRadians(-30.0),
 			roll: 0.0,
 		},
 		complete:showPic,
 	})
+	// timers.push(setTimeout(showPic,2000));
 };
 
 const showPic = ()=>{
 	picBox.classList.add('active');
-	timers.push(setTimeout(next,5000));
+	// timers.push(setTimeout(next,5000));
+	// timers.push(setTimeout(next,3500));
+	timers.push(setTimeout(hidePic,3000));
+};
+const hidePic = ()=>{
+	picBox.classList.remove('active');
+	timers.push(setTimeout(next,500));
 };
 
 const next = ()=>{
@@ -373,3 +417,7 @@ picBox.addEventListener('mouseout',()=>{
 });
 
 appendLabels();
+
+document.oncontextmenu = ()=>{
+	return false;
+};
